@@ -2,6 +2,7 @@
 
 This project aims to provide Google Maps like navigation over a custom map, e.g. for a RPG world map.
 
+See example at https://echolaitoc.github.io/FantasyMapProject/
 ![map screenshot](https://raw.githubusercontent.com/Echolaitoc/FantasyMapProject/master/doc/readme_preview.png)
 
 The app can be built as a standalone WPF application or alternatively as a web app using [Bridge.NET](https://bridge.net/).
