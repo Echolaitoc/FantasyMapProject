@@ -1,0 +1,31 @@
+﻿<UserControl x:Class="WPF.WpfMapTileImage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:WPF"
+             mc:Ignorable="d" DataContext="{Binding RelativeSource={RelativeSource Self}}"
+             Width="Auto" Height="Auto">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="ForegroundBrush" Color="White"/>
+        <SolidColorBrush x:Key="BackgroundBrush" Color="LightGray"/>
+    </UserControl.Resources>
+    <Grid x:Name="OuterGrid" TextElement.Foreground="{StaticResource ForegroundBrush}" TextElement.FontSize="14">
+        <Border BorderBrush="{StaticResource ForegroundBrush}" BorderThickness="1" Background="{StaticResource BackgroundBrush}"/>
+        <Viewbox Stretch="Uniform" VerticalAlignment="Top" HorizontalAlignment="Left">
+            <Grid Width="{Binding BaseTileSize}" Height="{Binding BaseTileSize}">
+                <Image x:Name="Image" Stretch="None" VerticalAlignment="Top" HorizontalAlignment="Left"/>
+            </Grid>
+        </Viewbox>
+        <Grid x:Name="debugGrid">
+            <Grid.Effect>
+                <DropShadowEffect BlurRadius="5" Direction="-90" RenderingBias="Quality" ShadowDepth="2"/>
+            </Grid.Effect>
+            <StackPanel>
+                <TextBlock Text="{Binding GridPosition}" Margin="4"/>
+                <TextBlock Text="{Binding MapPosition}" Margin="4"/>
+            </StackPanel>
+        </Grid>
+        <Border BorderBrush="{StaticResource ForegroundBrush}" BorderThickness="1" Opacity="0.2"/>
+    </Grid>
+</UserControl>

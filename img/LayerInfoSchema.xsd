@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xs:schema id="LayerInfoSchema"
+    targetNamespace="FantasyMapProject:LayerInfo"
+    elementFormDefault="qualified"
+    xmlns="http://tempuri.org/LayerInfoSchema.xsd"
+    xmlns:mstns="http://tempuri.org/LayerInfoSchema.xsd"
+    xmlns:xs="http://www.w3.org/2001/XMLSchema"
+>
+  <xs:element name="LayerInfo">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="Layer" maxOccurs="unbounded">
+          <xs:complexType>
+            <xs:attribute name="DimensionX" type="xs:integer"/>
+            <xs:attribute name="DimensionY" type="xs:integer"/>
+          </xs:complexType>
+        </xs:element>
+      </xs:sequence>
+	  <xs:attribute name="TileSize" type="xs:integer"/>
+    </xs:complexType>
+  </xs:element>
+</xs:schema>

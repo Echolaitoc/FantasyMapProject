@@ -1,0 +1,9 @@
+﻿<?xml version="1.0" encoding="utf-8" ?> 
+<LayerInfo TileSize="256">
+	<Layer DimensionX="1" DimensionY="1"/>
+	<Layer DimensionX="2" DimensionY="2"/>
+	<Layer DimensionX="4" DimensionY="4"/>
+	<Layer DimensionX="8" DimensionY="8"/>
+	<Layer DimensionX="16" DimensionY="16"/>
+	<Layer DimensionX="32" DimensionY="32"/>
+</LayerInfo>
