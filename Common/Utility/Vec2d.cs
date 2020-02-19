@@ -42,6 +42,12 @@
             return new Vec2d(x * vec.x, y * vec.y);
         }
 
+        public static double Distance(Vec2d a, Vec2d b)
+        {
+            Vec2d difference = a - b;
+            return System.Math.Sqrt(difference.x * difference.x + difference.y * difference.y);
+        }
+
         public static Vec2d operator +(Vec2d a, Vec2d b)
         {
             if (a == null) return (b == null) ? null : new Vec2d(b);

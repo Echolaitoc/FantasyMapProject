@@ -47,6 +47,12 @@
             return new Vec2i(x * vec.x, y * vec.y);
         }
 
+        public static double Distance(Vec2i a, Vec2i b)
+        {
+            Vec2i difference = a - b;
+            return System.Math.Sqrt(difference.x * difference.x + difference.y * difference.y);
+        }
+
         public static Vec2i operator +(Vec2i a, Vec2i b)
         {
             if (a == null) return (b == null) ? null : new Vec2i(b);

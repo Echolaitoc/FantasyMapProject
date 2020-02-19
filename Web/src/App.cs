@@ -17,6 +17,7 @@ namespace Web
         private MapManager Map { get; set; }
 
         private Vec2i LastMousePos { get; set; }
+        private double LastPinchGestureDistance { get; set; }
 
         public App(HTMLCanvasElement screen)
         {
@@ -24,12 +25,16 @@ namespace Web
             ctx = screen.GetContext(CanvasTypes.CanvasContext2DType.CanvasRenderingContext2D);
             ctx.ImageSmoothingEnabled = true;
             LastMousePos = new Vec2i();
+            LastPinchGestureDistance = 0.0;
 
             Window.AddEventListener(EventType.Resize, OnSizeChanged);
             screen.AddEventListener(EventType.Wheel, OnMouseWheel);
             screen.AddEventListener(EventType.MouseDown, OnMouseDown);
             screen.AddEventListener(EventType.MouseUp, OnMouseUp);
             screen.AddEventListener(EventType.MouseMove, OnMouseMove);
+            screen.AddEventListener(EventType.TouchStart, OnTouchStart);
+            screen.AddEventListener(EventType.TouchEnd, OnTouchEnd);
+            screen.AddEventListener(EventType.TouchMove, OnTouchMove);
 
             ReadLayerInfos();
         }
@@ -155,6 +160,73 @@ namespace Web
                 var me = (MouseEvent)e;
                 LastMousePos.Set(me.ClientX, me.ClientY);
                 Map.OnMove(me.ClientX, me.ClientY);
+            }
+        }
+
+        private void OnTouchEnd(Event e)
+        {
+            if (Map != null && e is TouchEvent)
+            {
+                var te = (TouchEvent)e;
+                if (te != null && (te.Touches == null || te.Touches.Length == 0))
+                {
+                    Map.OnRelease();
+                }
+            }
+        }
+
+        private void OnTouchStart(Event e)
+        {
+            if (Map != null && e is TouchEvent)
+            {
+                var te = (TouchEvent)e;
+                if (te != null && te.Touches != null)
+                {
+                    if (te.Touches.Length == 1)
+                    {
+                        Touch t = te.Touches[0];
+                        LastMousePos.Set(t.ClientX, t.ClientY);
+                        Map.OnPress(t.ClientX, t.ClientY);
+                    }
+                    else if (te.Touches.Length == 2)
+                    {
+                        Touch t1 = te.Touches[0];
+                        Touch t2 = te.Touches[1];
+                        Vec2i t1Pos = new Vec2i(t1.ClientX, t1.ClientY);
+                        Vec2i t2Pos = new Vec2i(t2.ClientX, t2.ClientY);
+                        double distance = Vec2i.Distance(t1Pos, t2Pos);
+                        LastPinchGestureDistance = distance;
+                    }
+                }
+            }
+        }
+
+        private void OnTouchMove(Event e)
+        {
+            if (Map != null && e is TouchEvent)
+            {
+                var te = (TouchEvent)e;
+                if (te != null && te.Touches != null)
+                {
+                    if (te.Touches.Length == 1)
+                    {
+                        Touch t = te.Touches[0];
+                        LastMousePos.Set(t.ClientX, t.ClientY);
+                        Map.OnMove(t.ClientX, t.ClientY);
+                    }
+                    else if (te.Touches.Length == 2)
+                    {
+                        Touch t1 = te.Touches[0];
+                        Touch t2 = te.Touches[1];
+                        Vec2i t1Pos = new Vec2i(t1.ClientX, t1.ClientY);
+                        Vec2i t2Pos = new Vec2i(t2.ClientX, t2.ClientY);
+                        Vec2i mid = (t1Pos + t2Pos) / 2;
+                        double distance = Vec2i.Distance(t1Pos, t2Pos);
+                        double delta = LastPinchGestureDistance - distance;
+                        LastPinchGestureDistance = distance;
+                        Map.ZoomMap(mid.x, mid.y, delta * ZOOM_SPEED);
+                    }
+                }
             }
         }
     }
