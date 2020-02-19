@@ -224,7 +224,11 @@ namespace Web
                         double distance = Vec2i.Distance(t1Pos, t2Pos);
                         double delta = LastPinchGestureDistance - distance;
                         LastPinchGestureDistance = distance;
-                        Map.ZoomMap(mid.x, mid.y, delta * ZOOM_SPEED);
+                        Map.ZoomMap(mid.x, mid.y, delta * -ZOOM_SPEED);
+                    }
+                    if (te.Touches.Length > 1)
+                    {
+                        e.PreventDefault();
                     }
                 }
             }
